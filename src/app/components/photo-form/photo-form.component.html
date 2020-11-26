@@ -4,19 +4,23 @@
       <h3>Load Image</h3>
     </div>
     <div class="card-body">
-      <form>
+      <form (submit)="upImg(title, description, $event)">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="title">
+          <input type="text" class="form-control" placeholder="title" #title>
         </div>
         <div class="form-group">
-          <textarea rows="3" class="form-control" placeholder="description"></textarea>
+          <textarea rows="3" class="form-control" placeholder="description" #description></textarea>
         </div>
         <div class="form-group">
-          <input type="file" class="d-none" #upImgEl (change)="upImg($event.target.files)">
-          <img src="https://www.allianceplast.com/wp-content/uploads/2017/11/no-image.png"
+          <input type="file" class="d-none" #upImgEl (change)="loadImg($event)">
+          <img
+          [src]="processedImg || 'https://www.allianceplast.com/wp-content/uploads/2017/11/no-image.png'"
           class="img-fluid"
           alt="no image"
-          (click)="upImgEl.click">
+          (click)="upImgEl.click()">
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary form-control">upload</button>
         </div>
       </form>
     </div>

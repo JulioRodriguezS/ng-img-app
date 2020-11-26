@@ -1,4 +1,6 @@
+import { PhotoService } from './../../services/photo.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-photo-form',
@@ -8,19 +10,23 @@ import { Component, OnInit } from '@angular/core';
 export class PhotoFormComponent implements OnInit {
 
   imgFile: File;
-  processedImg: ArrayBuffer;
-  constructor() { }
+  processedImg: string | ArrayBuffer;
+  constructor(private photoService: PhotoService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  upImg(event: Event): void {
-    const img = event.currentTarget as HTMLInputElement;
-    if (img.files && img.files[0]) {
-      this.imgFile = img.files[0];
-      console.log(this.imgFile);
+  loadImg(event: any): void {
+    if (event.target.files && event.target.files[0]) {
+      this.imgFile = event.target.files[0];
       const reader = new FileReader();
-      reader.onload = e => { };
+      reader.onload = e => this.processedImg = reader.result;
+      reader.readAsDataURL(this.imgFile);
     }
+  }
+  upImg(title: HTMLInputElement, description: HTMLTextAreaElement, event: Event): void {
+    event.preventDefault();
+    this.photoService.createPhoto(title.value, description.value, this.imgFile)
+      .subscribe(res => { this.router.navigate(['/photos']); }, err => { console.log(err); });
   }
 }

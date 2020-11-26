@@ -9,18 +9,26 @@ exports.__esModule = true;
 exports.PhotoFormComponent = void 0;
 var core_1 = require("@angular/core");
 var PhotoFormComponent = /** @class */ (function () {
-    function PhotoFormComponent() {
+    function PhotoFormComponent(photoService, router) {
+        this.photoService = photoService;
+        this.router = router;
     }
     PhotoFormComponent.prototype.ngOnInit = function () {
     };
-    PhotoFormComponent.prototype.upImg = function (event) {
-        var img = event.currentTarget;
-        if (img.files && img.files[0]) {
-            this.imgFile = img.files[0];
-            console.log(this.imgFile);
-            var reader = new FileReader();
-            reader.onload = function (e) { };
+    PhotoFormComponent.prototype.loadImg = function (event) {
+        var _this = this;
+        if (event.target.files && event.target.files[0]) {
+            this.imgFile = event.target.files[0];
+            var reader_1 = new FileReader();
+            reader_1.onload = function (e) { return _this.processedImg = reader_1.result; };
+            reader_1.readAsDataURL(this.imgFile);
         }
+    };
+    PhotoFormComponent.prototype.upImg = function (title, description, event) {
+        var _this = this;
+        event.preventDefault();
+        this.photoService.createPhoto(title.value, description.value, this.imgFile)
+            .subscribe(function (res) { _this.router.navigate(['/photos']); }, function (err) { console.log(err); });
     };
     PhotoFormComponent = __decorate([
         core_1.Component({
