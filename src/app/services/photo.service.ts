@@ -22,7 +22,25 @@ export class PhotoService {
     fd.append('image', photo);
     return this.http.post(this.url, fd);
   }
-  getPhotos(){
+  getPhotos() {
     return this.http.get<Photo[]>(this.url);
+  }
+  getPhoto(id: string) {
+    return this.http.get<Photo>(this.url + id);
+  }
+  deletePhoto(id: string) {
+    let localResponse = {};
+    this.http.delete(id).subscribe(
+      res => localResponse = res,
+      err => localResponse = err
+    );
+    return localResponse;
+  }
+  updatePhoto(photo: Photo) {
+    let localResponse = {};
+    this.http.put(null, photo).subscribe(
+      res => localResponse = res,
+      err => localResponse = err
+    );
   }
 }

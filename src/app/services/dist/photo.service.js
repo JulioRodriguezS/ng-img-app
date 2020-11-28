@@ -26,6 +26,18 @@ var PhotoService = /** @class */ (function () {
     PhotoService.prototype.getPhotos = function () {
         return this.http.get(this.url);
     };
+    PhotoService.prototype.getPhoto = function (id) {
+        return this.http.get(this.url + id);
+    };
+    PhotoService.prototype.deletePhoto = function (id) {
+        var localResponse = {};
+        this.http["delete"](id).subscribe(function (res) { return localResponse = res; }, function (err) { return localResponse = err; });
+        return localResponse;
+    };
+    PhotoService.prototype.updatePhoto = function (photo) {
+        var localResponse = {};
+        this.http.put(null, photo).subscribe(function (res) { return localResponse = res; }, function (err) { return localResponse = err; });
+    };
     PhotoService = __decorate([
         core_1.Injectable({
             providedIn: 'root'

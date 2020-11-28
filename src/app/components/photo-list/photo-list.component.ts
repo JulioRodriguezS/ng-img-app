@@ -1,6 +1,7 @@
 import { PhotoPublicInf } from './../../photo.class';
 import { PhotoService } from './../../services/photo.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-photo-list',
@@ -9,7 +10,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PhotoListComponent implements OnInit {
 
-  constructor(private photoService: PhotoService) { }
+  constructor(private photoService: PhotoService, private router: Router) { }
 
   listImg = [];
 
@@ -19,11 +20,11 @@ export class PhotoListComponent implements OnInit {
   ngOnInit(): void {
     this.photoService.getPhotos()
       .subscribe(
-        res => this.listImg = res,
+        res => { this.listImg = res; },
         err => console.log('err: ', err));
   }
 
   selectedCard(imgId: string): void {
-    console.log(imgId);
+    this.router.navigate(['photos/', imgId]);
   }
 }

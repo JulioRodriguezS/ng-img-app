@@ -10,8 +10,9 @@ exports.PhotoListComponent = void 0;
 var photo_class_1 = require("./../../photo.class");
 var core_1 = require("@angular/core");
 var PhotoListComponent = /** @class */ (function () {
-    function PhotoListComponent(photoService) {
+    function PhotoListComponent(photoService, router) {
         this.photoService = photoService;
+        this.router = router;
         this.listImg = [];
         this.photoSets = new photo_class_1.PhotoPublicInf();
         this.url = this.photoSets.url;
@@ -19,10 +20,10 @@ var PhotoListComponent = /** @class */ (function () {
     PhotoListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.photoService.getPhotos()
-            .subscribe(function (res) { return _this.listImg = res; }, function (err) { return console.log('err: ', err); });
+            .subscribe(function (res) { _this.listImg = res; }, function (err) { return console.log('err: ', err); });
     };
     PhotoListComponent.prototype.selectedCard = function (imgId) {
-        console.log(imgId);
+        this.router.navigate(['photos/', imgId]);
     };
     PhotoListComponent = __decorate([
         core_1.Component({

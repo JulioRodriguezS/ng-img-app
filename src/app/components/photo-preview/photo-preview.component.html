@@ -1,1 +1,11 @@
-<p>photo-preview works!</p>
+<div class="row" *ngIf="photo | async as Photo; else loadingImg">
+  <div class="col-sm-6">
+    <img [src]="url + 'images/' + photo.name" class="img-fluid">
+  </div>
+  <div class="col-sm-6"></div>
+</div>
+<ng-template #loadingImg>
+  <div class="col-sm-4 mx-auto mt-4">
+    <img src="../../assets/200.gif" class="img-fluid">
+  </div>
+</ng-template>
